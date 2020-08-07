@@ -80,8 +80,9 @@ async function kittenbotInit() {
               console.log("Not enough people said yes");
               // Not enough people said yes in the timespan
               async (response, convo, bot) => {
-                console.log("Going to no_zoom thread");
-                await convo.gotoThread("no_zoom");
+                return await bot.reply(message, "Not enough people are around... :sadpanda: Try again later!");
+                // console.log("Going to no_zoom thread");
+                // await convo.gotoThread("no_zoom");
               };
             }
           }, timeout_time); //600000
@@ -103,7 +104,13 @@ async function kittenbotInit() {
           console.log("Number after change is" + numGoing + " truthy is " + (numGoing >= threshhold));
           if (numGoing >= threshhold) {
             console.log("Activating zoom....");
-            await convo.gotoThread("yes_zoom");
+            return await bot.reply(message, "zoom link here!!!!!! https://atlassian.zoom.us/j/96856753417?pwd=QnppS2ovRXVtc2hJRG93ZjlqWklvUT09");
+
+            // const drop_link = new BotkitConversation("drop_link", controller);
+            // console.log("Start of drop_link");
+            // drop_link.say("zoom link here!!!!!! https://atlassian.zoom.us/j/96856753417?pwd=QnppS2ovRXVtc2hJRG93ZjlqWklvUT09");
+
+            // await convo.gotoThread("yes_zoom");
           } 
           // else {
           //   await convo.gotoThread("ask_again");
