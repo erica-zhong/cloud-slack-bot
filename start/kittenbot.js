@@ -91,6 +91,24 @@ async function kittenbotInit() {
         }
       }
     );
+      
+    controller.hears(['@ZuumRuum yes'], ['message', 'direct_message'],
+      // async (bot, message) => {
+      //  await bot.reply(message, 'Meow. :smile_cat:');
+      // });
+      async (bot, message) => {
+        if (message.bot_id !== message.user) {
+          numGoing++;
+          if (numGoing >= threshhold) {
+            console.log("Activating zoom....");
+            await convo.gotoThread("yes_zoom");
+          } 
+          // else {
+          //   await convo.gotoThread("ask_again");
+          // }
+        }
+      }
+    );
   });
 }
 
@@ -105,30 +123,24 @@ let numGoing = 0;
  */
 function createKittenDialog(controller) {
   const convo = new BotkitConversation("kitten-delivery", controller);
-  console.log("Start of the createKittenDialog. numgoing: " + numGoing);
-  let prompt = "";
-  if (numGoing == 0) {
-    prompt = "Do you want to join a zoom room?"
-  } else {
-    prompt = "Does anyone else want to join? There are " + numGoing + "/" + threshhold + " people going right now."
-  }
-
-  convo.ask(prompt, [
-    {
-      pattern: "yes",
-      handler: async (response, convo, bot) => {
-        numGoing++;
-        console.log("we got the first yes");
-        if  (numGoing >= threshhold) {
-          console.log("Activating zoom....");
-          await convo.gotoThread("yes_zoom");
-        } else {
-          bot.beginDialog("kitten-delivery");
-        }
-        // await convo.gotoThread("ask_question");
-      },
-    },
-  ]);
+  console.log("Start of the createKittenDialog");
+  convo.say("Do you want to join a zoom room? Reply `@ZuumRuum yes`");
+  // convo.ask("Do you want to join a zoom room?", [
+  //   {
+  //     pattern: "yes",
+  //     handler: async (response, convo, bot) => {
+  //       numGoing++;
+  //       console.log("we got the first yes");
+  //       // await convo.gotoThread("ask_question");
+  //     },
+  //   },
+  //   {
+  //     pattern: "no",
+  //     handler: async (response, convo, bot) => {
+  //       await convo.gotoThread("no_zoom");
+  //     },
+  //   },
+  // ]);
 
   // convo.addQuestion(
   //   "Does anyone else want to join a zoom room?",
