@@ -105,7 +105,6 @@ let numGoing = 0;
 function createKittenDialog(controller) {
   const convo = new BotkitConversation("kitten-delivery", controller);
   console.log("Start of the createKittenDialog");
-  console.
   convo.ask("Do you want to join a zoom room?", [
     {
       pattern: "yes",
@@ -162,12 +161,6 @@ function createKittenDialog(controller) {
     {
       text:
         "zoom link here!!!!!! https://atlassian.zoom.us/j/96856753417?pwd=QnppS2ovRXVtc2hJRG93ZjlqWklvUT09",
-      // attachments: [
-      //   {
-      //     fallback: "Chihuahua Bubbles - https://youtu.be/s84dBopsIe4",
-      //     text: "<https://youtu.be/s84dBopsIe4|" + "Chihuahua Bubbles>!",
-      //   },
-      // ],
     },
     "yes_zoom"
   );
