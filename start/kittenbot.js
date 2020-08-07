@@ -98,7 +98,7 @@ async function kittenbotInit() {
       // });
       async (bot, message) => {
         if (message.bot_id !== message.user) {
-          console.log("Heard '@ZuumRuum yes'. Number before change is:" + numGoing + "/" + threshold);
+          console.log("Heard '@ZuumRuum yes'. Number before change is:" + numGoing + "/" + threshhold);
           numGoing++;
           console.log("Number after change is" + numGoing + " truthy is " + (numGoing >= threshhold));
           if (numGoing >= threshhold) {
