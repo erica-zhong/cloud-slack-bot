@@ -84,7 +84,7 @@ async function kittenbotInit() {
                 await convo.gotoThread("no_zoom");
               };
             }
-          }, 10000); //600000
+          }, timeout_time); //600000
           console.log("begining kitten delivery");
           await bot.startConversationInChannel(message.channel, message.user);
           return bot.beginDialog("kitten-delivery");
@@ -98,6 +98,7 @@ async function kittenbotInit() {
       // });
       async (bot, message) => {
         if (message.bot_id !== message.user) {
+          console.log("Heard '@ZuumRuum yes'");
           numGoing++;
           if (numGoing >= threshhold) {
             console.log("Activating zoom....");
@@ -114,6 +115,7 @@ async function kittenbotInit() {
 
 const maxCats = 20;
 const threshhold = 3;
+const timeout_time = 30000;
 let numGoing = 0;
 
 /**
@@ -186,6 +188,7 @@ function createKittenDialog(controller) {
   );
   // convo.addAction("ask_question", "ask_again");
 
+          console.log("heard a @ZuumRuum yes");
   convo.addMessage(
     {
       text: "Not enough people are around... :sadpanda: Try again later!",
