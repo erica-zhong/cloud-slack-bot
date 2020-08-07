@@ -72,14 +72,15 @@ async function kittenbotInit() {
       async (bot, message) => {
         // Don't respond to self
         if (message.bot_id !== message.user) {
-          numGoing = 0;
           console.log("Heard the hello everyone");
+          numGoing = 0;
           setTimeout(function () {
             console.log("Timeout check complete!");
             if (numGoing < threshhold) {
               console.log("Not enough people said yes");
               // Not enough people said yes in the timespan
               async (response, convo, bot) => {
+                console.log("Going to no_zoom thread");
                 await convo.gotoThread("no_zoom");
               };
             }
@@ -141,6 +142,7 @@ function createKittenDialog(controller) {
   //   },
   // ]);
 
+
   // convo.addQuestion(
   //   "Does anyone else want to join a zoom room?",
   //   [
@@ -148,7 +150,9 @@ function createKittenDialog(controller) {
   //       pattern: "yes",
   //       handler: async (response, convo, bot) => {
   //         numGoing++;
+
   //         console.log("we got more yesese");
+
   //         if (numGoing >= threshhold) {
   //           console.log("Activating zoom....");
   //           await convo.gotoThread("yes_zoom");
@@ -157,6 +161,17 @@ function createKittenDialog(controller) {
   //         }
   //       },
   //     },
+  //     {
+  //       default: true,
+  //       handler: async (response, convo, bot, message) => {
+  //         if (response) {
+  //           await convo.gotoThread('ask_again')
+  //         } else {
+  //           // The response '0' is interpreted as null
+  //           // await convo.gotoThread('zero_kittens')
+  //         }
+  //       }
+  //     }
   //   ],
   //   "response",
   //   "ask_question"
@@ -169,15 +184,10 @@ function createKittenDialog(controller) {
     {
       text:
         "zoom link here!!!!!! https://atlassian.zoom.us/j/96856753417?pwd=QnppS2ovRXVtc2hJRG93ZjlqWklvUT09",
-      // attachments: [
-      //   {
-      //     fallback: "Chihuahua Bubbles - https://youtu.be/s84dBopsIe4",
-      //     text: "<https://youtu.be/s84dBopsIe4|" + "Chihuahua Bubbles>!",
-      //   },
-      // ],
     },
     "yes_zoom"
   );
+  // convo.addAction("ask_question", "ask_again");
 
   convo.addMessage(
     {
