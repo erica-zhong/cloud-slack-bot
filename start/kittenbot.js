@@ -76,13 +76,14 @@ async function kittenbotInit() {
           numGoing = 0;
           setTimeout(function () {
             console.log("Timeout check complete!");
-            // if (numGoing < threshhold) {
-            //   console.log("Not enough people said yes");
-            //   // Not enough people said yes in the timespan
-            //   async (response, convo, bot) => {
-            //     await convo.gotoThread("no_zoom");
-            //   };
-            // }
+            if (numGoing < threshhold) {
+              console.log("Not enough people said yes");
+              // Not enough people said yes in the timespan
+              async (response, convo, bot) => {
+                console.log("Going to no_zoom thread");
+                await convo.gotoThread("no_zoom");
+              };
+            }
           }, 10000); //600000
           console.log("begining kitten delivery");
           await bot.startConversationInChannel(message.channel, message.user);
@@ -105,57 +106,64 @@ let numGoing = 0;
 function createKittenDialog(controller) {
   const convo = new BotkitConversation("kitten-delivery", controller);
   console.log("Start of the createKittenDialog");
-  convo.ask("Do you want to join a zoom room?", [
+  let prompt = "";
+  if (numGoing == 0) {
+    prompt = "Do you want to join a zoom room?"
+  } else {
+    prompt = "Does anyone else want to join? There are " + numGoing + "/" + threshhold + " people going right now."
+  }
+
+  convo.ask(prompt, [
     {
       pattern: "yes",
       handler: async (response, convo, bot) => {
         numGoing++;
         console.log("we got the first yes");
-        await convo.gotoThread("ask_question");
-      },
-    },
-    {
-      pattern: "no",
-      handler: async (response, convo, bot) => {
-        await convo.gotoThread("no_zoom");
+        if  (numGoing >= threshhold) {
+          console.log("Activating zoom....");
+          await convo.gotoThread("yes_zoom");
+        } else {
+          bot.beginDialog("kitten-delivery");
+        }
+        // await convo.gotoThread("ask_question");
       },
     },
   ]);
 
-  convo.addQuestion(
-    "Does anyone else want to join a zoom room?",
-    [
-      {
-        pattern: "yes",
-        handler: async (response, convo, bot) => {
-          numGoing++;
-          console.log("we got more yeses");
-          if (numGoing >= threshhold) {
-            console.log("Activating zoom....");
-            await convo.gotoThread("yes_zoom");
-          } else {
-            await convo.gotoThread("ask_again");
-          }
-        },
-      },
-      {
-        default: true,
-        handler: async (response, convo, bot, message) => {
-          if (response) {
-            await convo.gotoThread('ask_again')
-          } else {
-            // The response '0' is interpreted as null
-            // await convo.gotoThread('zero_kittens')
-          }
-        }
-      }
-    ],
-    "response",
-    "ask_question"
-  );
+  // convo.addQuestion(
+  //   "Does anyone else want to join a zoom room?",
+  //   [
+  //     {
+  //       pattern: "yes",
+  //       handler: async (response, convo, bot) => {
+  //         numGoing++;
+  //         console.log("we got more yeses");
+  //         if (numGoing >= threshhold) {
+  //           console.log("Activating zoom....");
+  //           await convo.gotoThread("yes_zoom");
+  //         } else {
+  //           await convo.gotoThread("ask_again");
+  //         }
+  //       },
+  //     },
+  //     {
+  //       default: true,
+  //       handler: async (response, convo, bot, message) => {
+  //         if (response) {
+  //           await convo.gotoThread('ask_again')
+  //         } else {
+  //           // The response '0' is interpreted as null
+  //           // await convo.gotoThread('zero_kittens')
+  //         }
+  //       }
+  //     }
+  //   ],
+  //   "response",
+  //   "ask_question"
+  // );
 
-  convo.addMessage("Thanks for responding!", "ask_again");
-  convo.addAction("ask_question", "ask_again");
+  // convo.addMessage("Thanks for responding!", "ask_again");
+  // convo.addAction("ask_question", "ask_again");
 
   convo.addMessage(
     {
