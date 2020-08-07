@@ -72,7 +72,7 @@ async function kittenbotInit() {
       async (bot, message) => {
         // Don't respond to self
         if (message.bot_id !== message.user) {
-          console.log("Heard the hello everyone");
+          console.log("Heard the hello everyone.");
           numGoing = 0;
           setTimeout(function () {
             console.log("Timeout check complete!");
@@ -92,14 +92,15 @@ async function kittenbotInit() {
       }
     );
       
-    controller.hears(['@ZuumRuum yes'], ['message', 'direct_message'],
+    controller.hears(['@ZuumRuum yes', "yeet"], ['message', 'direct_message'],
       // async (bot, message) => {
       //  await bot.reply(message, 'Meow. :smile_cat:');
       // });
       async (bot, message) => {
         if (message.bot_id !== message.user) {
-          console.log("Heard '@ZuumRuum yes'");
+          console.log("Heard '@ZuumRuum yes'. Number before change is:" + numGoing + "/" + threshold);
           numGoing++;
+          console.log("Number after change is" + numGoing + " truthy is " + (numGoing >= threshhold));
           if (numGoing >= threshhold) {
             console.log("Activating zoom....");
             await convo.gotoThread("yes_zoom");
