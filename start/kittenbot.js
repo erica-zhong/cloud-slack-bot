@@ -117,7 +117,7 @@ function createKittenDialog(controller) {
     {
       pattern: "yes",
       handler: async (response, convo, bot) => {
-        js++;
+        numGoing++;
         console.log("we got the first yes");
         if  (numGoing >= threshhold) {
           console.log("Activating zoom....");
