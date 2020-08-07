@@ -105,7 +105,7 @@ let numGoing = 0;
  */
 function createKittenDialog(controller) {
   const convo = new BotkitConversation("kitten-delivery", controller);
-  console.log("Start of the createKittenDialog");
+  console.log("Start of the createKittenDialog. numgoing: " + numGoing);
   let prompt = "";
   if (numGoing == 0) {
     prompt = "Do you want to join a zoom room?"
@@ -117,7 +117,7 @@ function createKittenDialog(controller) {
     {
       pattern: "yes",
       handler: async (response, convo, bot) => {
-        numGoing++;
+        js++;
         console.log("we got the first yes");
         if  (numGoing >= threshhold) {
           console.log("Activating zoom....");
