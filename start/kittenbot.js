@@ -93,7 +93,7 @@ async function kittenbotInit() {
       }
     );
       
-    controller.hears(['@ZuumRuum yes', "yeet"], ['message', 'direct_message'],
+    controller.hears(['yeet', "yes"], ['message', 'direct_message'],
       // async (bot, message) => {
       //  await bot.reply(message, 'Meow. :smile_cat:');
       // });
